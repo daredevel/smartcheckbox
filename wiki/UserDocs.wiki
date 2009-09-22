@@ -1,13 +1,9 @@
 #summary SmartCheckbox usage documentation
 
-= Introduction =
+== options ==
 
-Test
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+|| *parameter* || *description* || *default value* ||
+|| attribute || select the attribute used to identify checkboxes to check/uncheck || id ||
+|| cascade || || false ||
+|| onCheck || || id ||
+|| onUncheck || || id ||
