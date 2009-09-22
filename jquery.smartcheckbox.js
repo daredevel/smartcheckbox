@@ -1,76 +1,83 @@
 /**
- * jQuery smartCheckbox
+ * jQuery SmartCheckbox
  * 
- * @version alpha
-**/
+ * @author Valerio Galano <valerio.galano@gmail.com>
+ *
+ * @version 0.1 alpha
+ */
 
 (function($){
 
 	$.fn.smartCheckbox = function(options) {
 
         var defaults = {
-            toCheck: {
+            attribute: 'id',
+            onCheck: { 
+                check: { },
+                uncheck: { }
             },
-            toUncheck: {
-            }
+            onUncheck: {
+                check: { },
+                uncheck: { }
+            },
+            recursive: false
         };
 
         // build main options before element iteration
         var opts = $.extend({}, $.fn.smartCheckbox.defaults, options);
 
         return this.each(function() {
-            $(this).bind('click', {'toCheck': opts.toCheck, 'toUncheck': opts.toUncheck }, change);
+            $(this).bind('click', opts, change);
         });
 	};
 
-    var change = function(ev, toCheck, toUncheck) {
+    var change = function(ev, options) {
         if ($(this).attr('checked')) {
-            check($(this).attr('value'), ev.data.toCheck);
+            check(ev.data.attribute, $(this).attr(ev.data.attribute), ev.data.onCheck, ev.data.recursive);
         } else {
-            uncheck($(this).attr('value'), ev.data.toUncheck);
+            check(ev.data.attribute, $(this).attr(ev.data.attribute), ev.data.onUncheck, ev.data.recursive);
         }
     };
 
-
-    // Check all checkbox with value contained in passed list
-    var check = function(i, list) {
-        if (i == undefined || list == undefined || list[i] == undefined) { 
+    var check = function(attribute, i, lists, recursive) {
+        if (i == undefined || lists[i] == undefined) { 
             return i;
         }
 
-        var list_split = list[i].split(',');
+        if (lists[i].check != undefined) {
+            var toCheck = lists[i].check.split(',');
+            
+            for (j in toCheck) {
+                if (toCheck[j] == i) continue;
 
-        for (list_i in list_split) {
-//          alert('i = '+i+' list_i = '+list_i+' list_split['+list_i+'] = '+list_split[list_i]);
-            if ($('input[type=checkbox][value=' + list_split[list_i] + ']').attr('checked') == false) {
+                if ($('input[type=checkbox][' + attribute + '=' + toCheck[j] + ']').attr('checked') == false) {
+                    $('input[type=checkbox][' + attribute + '=' + toCheck[j] + ']').attr('checked', true);
 
-                $('input[type=checkbox][value=' + list_split[list_i] + ']').attr('checked', true);
-//                check(list_split[list_i], list);
-
+                    if (recursive == true)
+                        check(attribute, toCheck[j], lists, recursive);
+                
+                }
+            
             }
-
+        
         }
 
-    }
-    
-    // Uncheck all checkbox with value contained in passed list
-    var uncheck = function(i, list) {
-        if (i == undefined || list == undefined || list[i] == undefined) { 
-            return i;
-        }
+        if (lists[i].uncheck != undefined) {
+            var toUncheck = lists[i].uncheck.split(',');
 
-        var list_split = list[i].split(',');
+            for (j in toUncheck) {
+                if (toUncheck[j] == i) continue;
 
-        for (list_i in list_split) {
-            if ($('input[type=checkbox][value=' + list_split[list_i] + ']').attr('checked') == true) {
-
-                $('input[type=checkbox][value=' + list_split[list_i] + ']').attr('checked', false);
-//                uncheck(list_split[list_i], list);
-
+                if ($('input[type=checkbox][' + attribute + '=' + toUncheck[j] + ']').attr('checked') == true) {
+                    $('input[type=checkbox][' + attribute + '=' + toUncheck[j] + ']').attr('checked', false);
+                
+                    if (recursive == true)
+                        check(attribute, toUncheck[j], lists, recursive);
+                
+                }
+            
             }
-
+        
         }
-
     }
-
 })(jQuery);
