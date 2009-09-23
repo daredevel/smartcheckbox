@@ -12,6 +12,7 @@
 
         var defaults = {
             attribute: 'id',
+            cascade: false,
             onCheck: { 
                 check: { },
                 uncheck: { }
@@ -19,8 +20,7 @@
             onUncheck: {
                 check: { },
                 uncheck: { }
-            },
-            recursive: false
+            }
         };
 
         // build main options before element iteration
@@ -48,13 +48,14 @@
             var toCheck = lists[i].check.split(',');
             
             for (j in toCheck) {
+                // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toCheck[j] == i) continue;
 
                 if ($('input[type=checkbox][' + attribute + '=' + toCheck[j] + ']').attr('checked') == false) {
                     $('input[type=checkbox][' + attribute + '=' + toCheck[j] + ']').attr('checked', true);
 
                     if (recursive == true)
-                        check(attribute, toCheck[j], lists, recursive);
+                        check(attribute, toCheck[j], lists, cascade);
                 
                 }
             
@@ -66,13 +67,14 @@
             var toUncheck = lists[i].uncheck.split(',');
 
             for (j in toUncheck) {
+                // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toUncheck[j] == i) continue;
 
                 if ($('input[type=checkbox][' + attribute + '=' + toUncheck[j] + ']').attr('checked') == true) {
                     $('input[type=checkbox][' + attribute + '=' + toUncheck[j] + ']').attr('checked', false);
                 
                     if (recursive == true)
-                        check(attribute, toUncheck[j], lists, recursive);
+                        check(attribute, toUncheck[j], lists, cascade);
                 
                 }
             
