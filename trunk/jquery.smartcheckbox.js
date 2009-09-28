@@ -5,7 +5,7 @@
  *
  * @version 0.1 alpha
  */
-
+smartcheckboxindex = 0;
 (function($){
 
     $.fn.smartCheckbox = function(options) {
@@ -21,7 +21,7 @@
                 check: { },
                 uncheck: { }
             },
-            container: 'smartcheckbox'
+            container: 'smartcheckbox'+'['+ smartcheckboxindex++ +']'
         };
 
         // build main options before element iteration
@@ -34,7 +34,6 @@
     };
 
     var change = function(ev, options) {
-//        alert(ev.data.container);
         if ($(this).attr('checked')) {
             check(ev.data.container, ev.data.attribute, $(this).attr(ev.data.attribute), ev.data.onCheck, ev.data.cascade);
         } else {
@@ -53,7 +52,7 @@
             for (j in toCheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toCheck[j] == i) continue;
-//                alert('input[type=checkbox][class=' + container + '][' + attribute + '=' + toCheck[j] + ']');
+
                 if ($('input[type=checkbox][class=' + container + '][' + attribute + '=' + toCheck[j] + ']').attr('checked') == false) {
                     $('input[type=checkbox][class=' + container + '][' + attribute + '=' + toCheck[j] + ']').attr('checked', true);
 
@@ -72,7 +71,7 @@
             for (j in toUncheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toUncheck[j] == i) continue;
-//                alert('input[type=checkbox][class=' + container + '][' + attribute + '=' + toUncheck[j] + ']');
+
                 if ($('input[type=checkbox][class=' + container + '][' + attribute + '=' + toUncheck[j] + ']').attr('checked') == true) {
                     $('input[type=checkbox][class=' + container + '][' + attribute + '=' + toUncheck[j] + ']').attr('checked', false);
 
