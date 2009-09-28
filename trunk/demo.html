@@ -7,28 +7,59 @@
         <script type="text/javascript">
         //<!--
             $(document).ready(function() {
-                $('input[type=checkbox]').smartCheckbox({
-//                    recursive: false,
+                $('.school input[type=checkbox]').smartCheckbox({
                     onCheck: {
-                        1: { check: '2,3', uncheck: '1' },
-                        2: { check: '4' },
-                        4: { check: '2' }
+                        2: { check: '1' },
+                        3: { check: '1,2' },
+                        4: { check: '1,2,3' },
+                        5: { check: '1,2,3,4' }
                     },
                     onUncheck: {
-                        1: { check: '4', uncheck: '1,3' }
+                        1: { uncheck: '2,3,4,5' },
+                        2: { uncheck: '3,4,5' },
+                        3: { uncheck: '4,5' },
+                        4: { uncheck: '5' }
                     },
                     attribute: 'value',
+                    container: 'demo1'
+                });
+
+                $('.school_cascade input[type=checkbox]').smartCheckbox({
+                    cascade: true,
+                    onCheck: {
+                        2: { check: '1' },
+                        3: { check: '2' },
+                        4: { check: '3' },
+                        5: { check: '4' }
+                    },
+                    onUncheck: {
+                        1: { uncheck: '2' },
+                        2: { uncheck: '3' },
+                        3: { uncheck: '4' },
+                        4: { uncheck: '5' }
+                    },
+                    attribute: 'value'
                 });
             });
         //-->
         </script>
     </head>
     <body>
-        <form>
-            <input type="checkbox" value="1" id="one"><label for="one">One</label><br />
-            <input type="checkbox" value="2" id="two"><label for="two">Two</label><br />
-            <input type="checkbox" value="3" id="three"><label for="three">Three</label><br />
-            <input type="checkbox" value="4" id="four"><label for="four">Four</label><br />
+        <form class="school">
+            Select your school level<br />
+            <input type="checkbox" value="1">Elementary<br />
+            <input type="checkbox" value="2">Middle<br />
+            <input type="checkbox" value="3">High<br />
+            <input type="checkbox" value="4">Post-secondary<br />
+            <input type="checkbox" value="5">Graduate<br />
+        </form>
+        <form class="school_cascade">
+            Select your school level (cascade option)<br />
+            <input type="checkbox" value="1">Elementary<br />
+            <input type="checkbox" value="2">Middle<br />
+            <input type="checkbox" value="3">High<br />
+            <input type="checkbox" value="4">Post-secondary<br />
+            <input type="checkbox" value="5">Graduate<br />
         </form>
     </body>
 </html>
