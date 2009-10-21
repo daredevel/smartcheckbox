@@ -9,7 +9,7 @@
             $(document).ready(function() {
                 $('.school input[type=checkbox]').smartCheckbox({
                     onCheck: {
-                        2: { check: '1' },
+                        2: { check: '1', url: 'server.html' },
                         3: { check: '1,2' },
                         4: { check: '1,2,3' },
                         5: { check: '1,2,3,4' }
@@ -27,7 +27,7 @@
                 $('.school_cascade input[type=checkbox]').smartCheckbox({
                     cascade: true,
                     onCheck: {
-                        2: { check: '1' },
+                        2: { check: '1' , url: 'server.html' },
                         3: { check: '2' },
                         4: { check: '3' },
                         5: { check: '4' }
