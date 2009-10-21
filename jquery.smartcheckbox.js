@@ -14,16 +14,8 @@ smartcheckboxindex = 0;
         var defaults = {
             attribute: 'id',
             cascade: false,
-            onCheck: {
-                url: '',
-                check: '',
-                uncheck: ''
-            },
-            onUncheck: {
-                url: '',
-                check: '',
-                uncheck: ''
-            },
+            onCheck: { },
+            onUncheck: { },
             container: 'smartcheckbox'+'['+ smartcheckboxindex++ +']'
         };
 
