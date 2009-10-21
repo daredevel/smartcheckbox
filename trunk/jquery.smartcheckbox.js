@@ -3,9 +3,10 @@
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
  *
- * @version 0.1 alpha
+ * @version 0.2
  */
 smartcheckboxindex = 0;
+
 (function($){
 
     $.fn.smartCheckbox = function(options) {
@@ -14,12 +15,14 @@ smartcheckboxindex = 0;
             attribute: 'id',
             cascade: false,
             onCheck: {
-                check: { },
-                uncheck: { }
+                url: '',
+                check: '',
+                uncheck: ''
             },
             onUncheck: {
-                check: { },
-                uncheck: { }
+                url: '',
+                check: '',
+                uncheck: ''
             },
             container: 'smartcheckbox'+'['+ smartcheckboxindex++ +']'
         };
@@ -33,7 +36,7 @@ smartcheckboxindex = 0;
         });
     };
 
-    var change = function(ev, options) {
+    this.change = function(ev, options) {
         if ($(this).attr('checked')) {
             check(ev.data.container, ev.data.attribute, $(this).attr(ev.data.attribute), ev.data.onCheck, ev.data.cascade);
         } else {
@@ -41,13 +44,38 @@ smartcheckboxindex = 0;
         }
     };
 
-    var check = function(container, attribute, i, lists, cascade) {
+    this.check = function(container, attribute, i, lists, cascade) {
         if (i == undefined || lists[i] == undefined) {
             return i;
         }
 
+        var toCheck = '';
+        var toUncheck = '';
+
+        if (lists[i].url != undefined) {
+            var ajaxList = fetch(lists[i].url, i);
+            toCheck   = toCheck + ajaxList.check;
+            toUncheck = toUncheck + ajaxList.uncheck;
+        }
+
         if (lists[i].check != undefined) {
-            var toCheck = lists[i].check.split(',');
+            if (toCheck.length > 0) {
+                toCheck = toCheck + ',' + lists[i].check;
+            } else {
+                toCheck = toCheck + lists[i].check;
+            }
+        }
+
+        if (lists[i].uncheck != undefined) {
+            if (toCheck.length > 0) {
+                toUncheck = toUncheck + ',' + lists[i].uncheck;
+            } else {
+                toUncheck = toUncheck + lists[i].uncheck;
+            }
+        }
+
+        if (toCheck.length > 0) {
+            var toCheck = toCheck.split(',');
 
             for (j in toCheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
@@ -65,8 +93,8 @@ smartcheckboxindex = 0;
 
         }
 
-        if (lists[i].uncheck != undefined) {
-            var toUncheck = lists[i].uncheck.split(',');
+        if (toUncheck.length > 0) {
+            var toUncheck = toUncheck.split(',');
 
             for (j in toUncheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
@@ -84,4 +112,25 @@ smartcheckboxindex = 0;
 
         }
     }
+
+    this.fetch = function(url, id)
+    {
+        var data = $.ajax({
+                async: false,
+            url: url,
+            //data: ({id : id}),
+            //dataType: "json",
+            success: function(msg){
+                //alert(msg);
+            },
+            fail: function(msg){
+                alert('ajax error:' + msg);
+            }
+        }).responseText;
+
+        eval('data = {' + data + '}');
+
+        return data;
+    }
+
 })(jQuery);
