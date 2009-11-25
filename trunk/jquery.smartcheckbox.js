@@ -14,29 +14,27 @@ smartcheckboxindex = 0;
         var defaults = {
             attribute: 'id',
             cascade: false,
-            onCheck: { },
+            onCheck: { check: { }, url: { } },
             onUncheck: { },
             container: 'smartcheckbox'+'['+ smartcheckboxindex++ +']'
         };
 
         // build main options before element iteration
-        var opts = $.extend(defaults, options);
+        var options = $.extend(defaults, options);
 
-        return this.each(function() {
-            $(this).addClass(opts.container);
-            $(this).bind('click', opts, change);
+        this.each(function() {
+            $(this).addClass(options.container);
+            $(this).bind('click', options, change);
         });
     };
 
     this.change = function(ev, options) {
-        if ($(this).attr('checked')) {
-            check(ev.data.container, ev.data.attribute, $(this).attr(ev.data.attribute), ev.data.onCheck, ev.data.cascade);
-        } else {
-            check(ev.data.container, ev.data.attribute, $(this).attr(ev.data.attribute), ev.data.onUncheck, ev.data.cascade);
-        }
+        check(ev.data, $(this).attr(ev.data.attribute), $(this).attr('checked'));
     };
 
-    this.check = function(container, attribute, i, lists, cascade) {
+    this.check = function(options, i, checked) {
+        lists = (checked) ? options.onCheck : options.onUncheck;
+
         if (i == undefined || lists[i] == undefined) {
             return i;
         }
@@ -73,11 +71,11 @@ smartcheckboxindex = 0;
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toCheck[j] == i) continue;
 
-                if ($('input[type=checkbox][class=' + container + '][' + attribute + '=' + toCheck[j] + ']').attr('checked') == false) {
-                    $('input[type=checkbox][class=' + container + '][' + attribute + '=' + toCheck[j] + ']').attr('checked', true);
+                if ($('input[type=checkbox][class=' + options.container + '][' + options.attribute + '=' + toCheck[j] + ']').attr('checked') == false) {
+                    $('input[type=checkbox][class=' + options.container + '][' + options.attribute + '=' + toCheck[j] + ']').attr('checked', true);
 
-                    if (cascade == true)
-                        check(container, attribute, toCheck[j], lists, cascade);
+                    if (options.cascade == true)
+                        check(options, toCheck[j], true);
 
                 }
 
@@ -92,11 +90,11 @@ smartcheckboxindex = 0;
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toUncheck[j] == i) continue;
 
-                if ($('input[type=checkbox][class=' + container + '][' + attribute + '=' + toUncheck[j] + ']').attr('checked') == true) {
-                    $('input[type=checkbox][class=' + container + '][' + attribute + '=' + toUncheck[j] + ']').attr('checked', false);
+                if ($('input[type=checkbox][class=' + options.container + '][' + options.attribute + '=' + toUncheck[j] + ']').attr('checked') == true) {
+                    $('input[type=checkbox][class=' + options.container + '][' + options.attribute + '=' + toUncheck[j] + ']').attr('checked', false);
 
-                    if (cascade == true)
-                        check(container, attribute, toUncheck[j], lists, cascade);
+                    if (options.cascade == true)
+                        check(options, toUncheck[j], false);
 
                 }
 
@@ -108,12 +106,9 @@ smartcheckboxindex = 0;
     this.fetch = function(url, id)
     {
         var data = $.ajax({
-                async: false,
+            async: false,
             url: url,
-            //data: ({id : id}),
-            //dataType: "json",
             success: function(msg){
-                //alert(msg);
             },
             fail: function(msg){
                 alert('ajax error:' + msg);
