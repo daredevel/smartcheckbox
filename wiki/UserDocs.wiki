@@ -1,4 +1,5 @@
 #summary SmartCheckbox usage documentation
+#labels Deprecated
 
 == options ==
 
