@@ -67,7 +67,7 @@ smartcheckboxindex = 0;
         if (toCheck.length > 0) {
             var toCheck = toCheck.split(',');
 
-            elements = $('[class=' + options.container + ']');
+            elements = $('[class*=' + options.container + ']');
             for (j in toCheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toCheck[j] == i) continue;
@@ -88,7 +88,7 @@ smartcheckboxindex = 0;
         if (toUncheck.length > 0) {
             var toUncheck = toUncheck.split(',');
 
-            elements = $('[class=' + options.container + ']');
+            elements = $('[class*=' + options.container + ']');
             for (j in toUncheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toUncheck[j] == i) continue;
