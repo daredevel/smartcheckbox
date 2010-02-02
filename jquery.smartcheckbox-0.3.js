@@ -67,12 +67,15 @@ smartcheckboxindex = 0;
         if (toCheck.length > 0) {
             var toCheck = toCheck.split(',');
 
-            elements = $('[class*=' + options.container + ']');
+            elements = new Array();
+            $('[class*=' + options.container + ']').each(function(){
+                elements[$(this).attr(options.attribute)] = $(this);
+            });
             for (j in toCheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toCheck[j] == i) continue;
 
-                element = elements.filter('[' + options.attribute + '=' + toCheck[j] + ']');
+                element = elements[toCheck[j]];
                 if (element.attr('checked') == false) {
                     element.attr('checked', true);
 
@@ -88,12 +91,15 @@ smartcheckboxindex = 0;
         if (toUncheck.length > 0) {
             var toUncheck = toUncheck.split(',');
 
-            elements = $('[class*=' + options.container + ']');
+            elements = new Array();
+            $('[class*=' + options.container + ']').each(function(){
+                elements[$(this).attr(options.attribute)] = $(this);
+            });
             for (j in toUncheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toUncheck[j] == i) continue;
 
-                element = elements.filter('[' + options.attribute + '=' + toUncheck[j] + ']');
+                element = elements[toUncheck[j]];
                 if (element.attr('checked') == true) {
                     element.attr('checked', false);
 
