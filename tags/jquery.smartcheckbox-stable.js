@@ -1,9 +1,9 @@
 /**
- * jQuery smartcheckbox
+ * jQuery SmartCheckbox
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
  *
- * @version 0.3
+ * @version 0.2
  */
 smartcheckboxindex = 0;
 
@@ -14,7 +14,7 @@ smartcheckboxindex = 0;
         var defaults = {
             attribute: 'id',
             cascade: false,
-            onCheck: { },
+            onCheck: { check: { }, url: { } },
             onUncheck: { },
             container: 'smartcheckbox'+'['+ smartcheckboxindex++ +']'
         };
@@ -49,31 +49,33 @@ smartcheckboxindex = 0;
         }
 
         if (lists[i].check != undefined) {
-            toCheck = (toCheck.length > 0) ? toCheck + ',' + lists[i].check : toCheck + lists[i].check;
+            if (toCheck.length > 0) {
+                toCheck = toCheck + ',' + lists[i].check;
+            } else {
+                toCheck = toCheck + lists[i].check;
+            }
         }
 
         if (lists[i].uncheck != undefined) {
-            toUncheck = (toUncheck.length > 0) ? toUncheck + ',' + lists[i].uncheck : toUncheck + lists[i].uncheck;
+            if (toCheck.length > 0) {
+                toUncheck = toUncheck + ',' + lists[i].uncheck;
+            } else {
+                toUncheck = toUncheck + lists[i].uncheck;
+            }
         }
 
         if (toCheck.length > 0) {
             var toCheck = toCheck.split(',');
 
-            elements = new Array();
-            $('[class*=' + options.container + ']').each(function(){
-                elements[$(this).attr(options.attribute)] = $(this);
-            });
             for (j in toCheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toCheck[j] == i) continue;
 
-                element = elements[toCheck[j]];
-                if (element.attr('checked') == false) {
-                    element.attr('checked', true);
+                if ($('input[type=checkbox][class=' + options.container + '][' + options.attribute + '=' + toCheck[j] + ']').attr('checked') == false) {
+                    $('input[type=checkbox][class=' + options.container + '][' + options.attribute + '=' + toCheck[j] + ']').attr('checked', true);
 
-                    if (options.cascade == true) {
+                    if (options.cascade == true)
                         check(options, toCheck[j], true);
-                    }
 
                 }
 
@@ -84,28 +86,21 @@ smartcheckboxindex = 0;
         if (toUncheck.length > 0) {
             var toUncheck = toUncheck.split(',');
 
-            elements = new Array();
-            $('[class*=' + options.container + ']').each(function(){
-                elements[$(this).attr(options.attribute)] = $(this);
-            });
             for (j in toUncheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toUncheck[j] == i) continue;
 
-                element = elements[toUncheck[j]];
-                if (element.attr('checked') == true) {
-                    element.attr('checked', false);
+                if ($('input[type=checkbox][class=' + options.container + '][' + options.attribute + '=' + toUncheck[j] + ']').attr('checked') == true) {
+                    $('input[type=checkbox][class=' + options.container + '][' + options.attribute + '=' + toUncheck[j] + ']').attr('checked', false);
 
-                    if (options.cascade == true) {
+                    if (options.cascade == true)
                         check(options, toUncheck[j], false);
-                    }
 
                 }
 
             }
 
         }
-
     }
 
     this.fetch = function(url, id)
