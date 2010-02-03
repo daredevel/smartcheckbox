@@ -1,4 +1,4 @@
-#summary usage examples
+#summary smartcheckbox usage examples
 === example 1 ===
 We want to make user choose wich school level he/she reached. Of course, for each level he/she has also lower levels.
 
