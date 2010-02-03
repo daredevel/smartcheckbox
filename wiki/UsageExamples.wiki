@@ -1,8 +1,8 @@
-== usage examples ==
+#summary usage examples
 === example 1 ===
 We want to make user choose wich school level he/she reached. Of course, for each level he/she has also lower levels.
 
-first of all we need a form with a list of checkboxes like this:
+First of all we need a form with a list of checkboxes like this:
 {{{
         <form class="school_cascade">
             Select your school level (cascade option)<br />
@@ -42,4 +42,4 @@ and in html head section:
         </script>
 }}}
 
-with this configuration, checking school level will automatically check all required level to reach it; and unchecking a level, will automatically uncheck all levels impossible to reach without it.
+With this configuration, checking school level will automatically check all required level to reach it; and unchecking a level, will automatically uncheck all levels impossible to reach without it.
