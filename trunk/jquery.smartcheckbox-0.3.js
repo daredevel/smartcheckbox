@@ -14,8 +14,8 @@ smartcheckboxindex = 0;
         var defaults = {
             attribute: 'id',
             cascade: false,
-            onCheck: { check:{ }, uncheck:{ }, url:{ } },
-            onUncheck: { check:{ }, uncheck:{ }, url:{ } },
+            onCheck: { },
+            onUncheck: { },
             container: 'smartcheckbox'+'['+ smartcheckboxindex++ +']'
         };
 
@@ -49,19 +49,11 @@ smartcheckboxindex = 0;
         }
 
         if (lists[i].check != undefined) {
-            if (toCheck.length > 0) {
-                toCheck = toCheck + ',' + lists[i].check;
-            } else {
-                toCheck = toCheck + lists[i].check;
-            }
+            toCheck = (toCheck.length > 0) ? toCheck + ',' + lists[i].check : toCheck + lists[i].check;
         }
 
         if (lists[i].uncheck != undefined) {
-            if (toCheck.length > 0) {
-                toUncheck = toUncheck + ',' + lists[i].uncheck;
-            } else {
-                toUncheck = toUncheck + lists[i].uncheck;
-            }
+            toUncheck = (toUncheck.length > 0) ? toUncheck + ',' + lists[i].uncheck : toUncheck + lists[i].uncheck;
         }
 
         if (toCheck.length > 0) {
@@ -79,8 +71,9 @@ smartcheckboxindex = 0;
                 if (element.attr('checked') == false) {
                     element.attr('checked', true);
 
-                    if (options.cascade == true)
+                    if (options.cascade == true) {
                         check(options, toCheck[j], true);
+                    }
 
                 }
 
@@ -103,14 +96,16 @@ smartcheckboxindex = 0;
                 if (element.attr('checked') == true) {
                     element.attr('checked', false);
 
-                    if (options.cascade == true)
+                    if (options.cascade == true) {
                         check(options, toUncheck[j], false);
+                    }
 
                 }
 
             }
 
         }
+
     }
 
     this.fetch = function(url, id)
