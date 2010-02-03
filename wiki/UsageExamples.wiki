@@ -1,0 +1,43 @@
+== usage examples ==
+=== example 1 ===
+first of all we need a form with a list of checkboxes like this:
+{{{
+        <form class="school_cascade">
+            Select your school level (cascade option)<br />
+            <input type="checkbox" value="1">Elementary<br />
+            <input type="checkbox" value="2">Middle<br />
+            <input type="checkbox" value="3">High<br />
+            <input type="checkbox" value="4">Post-secondary<br />
+            <input type="checkbox" value="5">Graduate<br />
+        </form>
+}}}
+
+and in html head section:
+{{{
+        <script type="text/javascript" src="lib/jquery-1.3.2.min.js"></script>
+        <script type="text/javascript" src="jquery.smartcheckbox.js"></script>
+        <script type="text/javascript">
+        //<!--
+            $(document).ready(function() {
+                  $('.school_cascade input[type=checkbox]').smartCheckbox({
+                    cascade: true,
+                    onCheck: {
+                        2: { check: '1' },
+                        3: { check: '2' },
+                        4: { check: '3' },
+                        5: { check: '4' }
+                    },
+                    onUncheck: {
+                        1: { uncheck: '2' },
+                        2: { uncheck: '3' },
+                        3: { uncheck: '4' },
+                        4: { uncheck: '5' }
+                    },
+                    attribute: 'value'
+                });
+            });
+        //-->
+        </script>
+}}}
+
+with this configuration, checking school level will automatically check all required level to reach it; and unchecking a level, will automatically uncheck all levels impossible to reach without it.
