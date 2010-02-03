@@ -1,5 +1,5 @@
 /**
- * jQuery SmartCheckbox
+ * jQuery smartcheckbox
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
  *
