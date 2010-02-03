@@ -6,6 +6,7 @@
 || *options* || *type* || *description* || *default value* ||
 || attribute || string || specifies the attribute used to identify checkboxes. For example: if user specifies attribute: "id" and onCheck { 1: { check: '2,3,4' } }, the script will check input with id="2", id="3", id="4" when input with id="1" is checked. || id ||
 || cascade || boolean || if true, the script acts also if the checkbox's state is changed by the script itself. For example: if user specifies "on check checkbox 1 then check checkbox 2" and "on check checkbox 2 then check checkbox 3" and cascade is set to true, then checking checkbox 1 the script will check checkbox 2 and 3. || false ||
+|| container || string || identifies a group of checkboxes binded to plugin. Usefull when user has more istances of smartcheckbox in the same page. || smartcheckbox[i] ||
 || onCheck || object || is a list that contains each checkbox with associated actions to run when the it is checked. For example: onCheck: { 1: { check: '2,3', uncheck: '4,5', url: 'server.php' } } || null ||
 || onCheck.i.check || string || list of checkboxes to check separated by coma. || ||
 || onCheck.i.uncheck || string || list of checkboxes to uncheck separated by coma. || ||
@@ -14,47 +15,3 @@
 || onUncheck.i.check || string || || ||
 || onUncheck.i.uncheck || string || || ||
 || onUncheck.i.url || string || || ||
-
-== usage examples ==
-=== example 1 ===
-first of all we need a form with a list of checkboxes like this:
-{{{
-        <form class="school_cascade">
-            Select your school level (cascade option)<br />
-            <input type="checkbox" value="1">Elementary<br />
-            <input type="checkbox" value="2">Middle<br />
-            <input type="checkbox" value="3">High<br />
-            <input type="checkbox" value="4">Post-secondary<br />
-            <input type="checkbox" value="5">Graduate<br />
-        </form>
-}}}
-
-and in html head section:
-{{{
-        <script type="text/javascript" src="lib/jquery-1.3.2.min.js"></script>
-        <script type="text/javascript" src="jquery.smartcheckbox.js"></script>
-        <script type="text/javascript">
-        //<!--
-            $(document).ready(function() {
-                  $('.school_cascade input[type=checkbox]').smartCheckbox({
-                    cascade: true,
-                    onCheck: {
-                        2: { check: '1' },
-                        3: { check: '2' },
-                        4: { check: '3' },
-                        5: { check: '4' }
-                    },
-                    onUncheck: {
-                        1: { uncheck: '2' },
-                        2: { uncheck: '3' },
-                        3: { uncheck: '4' },
-                        4: { uncheck: '5' }
-                    },
-                    attribute: 'value'
-                });
-            });
-        //-->
-        </script>
-}}}
-
-with this configuration, checking school level will automatically check all required level to reach it; and unchecking a level, will automatically uncheck all levels impossible to reach without it.
