@@ -5,9 +5,9 @@
  *
  * @version 0.3
  */
-smartcheckboxindex = 0;
-
 (function($){
+
+    var smartcheckboxindex = 0;
 
     $.fn.smartCheckbox = function(options) {
 
@@ -56,54 +56,33 @@ smartcheckboxindex = 0;
             toUncheck = (toUncheck.length > 0) ? toUncheck + ',' + lists[i].uncheck : toUncheck + lists[i].uncheck;
         }
 
+        elements = new Array();
+        $('[class*=' + options.container + ']').each(function(){
+            elements[$(this).attr(options.attribute)] = $(this);
+        });
+
         if (toCheck.length > 0) {
             var toCheck = toCheck.split(',');
 
-            elements = new Array();
-            $('[class*=' + options.container + ']').each(function(){
-                elements[$(this).attr(options.attribute)] = $(this);
-            });
             for (j in toCheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toCheck[j] == i) continue;
 
-                element = elements[toCheck[j]];
-                if (element.attr('checked') == false) {
-                    element.attr('checked', true);
-
-                    if (options.cascade == true) {
-                        check(options, toCheck[j], true);
-                    }
-
-                }
-
+                elements[toCheck[j]].attr('checked', true);
+                if (options.cascade == true) { check(options, toCheck[j], true); }
             }
-
         }
 
         if (toUncheck.length > 0) {
             var toUncheck = toUncheck.split(',');
 
-            elements = new Array();
-            $('[class*=' + options.container + ']').each(function(){
-                elements[$(this).attr(options.attribute)] = $(this);
-            });
             for (j in toUncheck) {
                 // prevent loop coused by user's configuration like "onCheck X then check X"
                 if (toUncheck[j] == i) continue;
 
-                element = elements[toUncheck[j]];
-                if (element.attr('checked') == true) {
-                    element.attr('checked', false);
-
-                    if (options.cascade == true) {
-                        check(options, toUncheck[j], false);
-                    }
-
-                }
-
+                elements[toUncheck[j]].attr('checked', false);
+                if (options.cascade == true) { check(options, toUncheck[j], false); }
             }
-
         }
 
     }
@@ -113,9 +92,9 @@ smartcheckboxindex = 0;
         var data = $.ajax({
             async: false,
             url: url,
-            success: function(msg){
+            success: function(msg) {
             },
-            fail: function(msg){
+            fail: function(msg) {
                 alert('ajax error:' + msg);
             }
         }).responseText;
