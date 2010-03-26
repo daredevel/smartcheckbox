@@ -1,5 +1,5 @@
 /**
- * jQuery smartcheckbox
+ * jQuery smartCheckbox
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
  *
@@ -7,40 +7,36 @@
  */
 (function($){
 
-    var smartcheckboxindex = 0;
+    var smartCheckboxIndex = 0;
 
     $.fn.smartCheckbox = function(options) {
 
-        var defaults = {
+        // build main options before element iteration
+        var options = $.extend({
             attribute: 'id',
             cascade: false,
-            onCheck: { },
-            onUncheck: { },
-            container: 'smartcheckbox'+'['+ smartcheckboxindex++ +']'
-        };
+            container: 'smartcheckbox'+'['+ smartCheckboxIndex++ +']',
+            onCheck: { check:{ }, uncheck: { }, url: { } },
+            onUncheck: { check:{ }, uncheck:{ }, url:{ } }
+        }, options);
 
-        // build main options before element iteration
-        var options = $.extend(defaults, options);
+        this.addClass(options.container);
 
-        this.each(function() {
-            $(this).addClass(options.container);
-            $(this).bind('click', options, change);
+        this.bind('click', options, function(ev) {
+            list(ev.data, $(this).attr(ev.data.attribute), $(this).attr('checked'));
         });
+
+        return this;
     };
 
-    this.change = function(ev, options) {
-        check(ev.data, $(this).attr(ev.data.attribute), $(this).attr('checked'));
-    };
-
-    this.check = function(options, i, checked) {
+    this.list = function(options, i, checked) {
         lists = (checked) ? options.onCheck : options.onUncheck;
 
-        if (i == undefined || lists[i] == undefined) {
-            return i;
+        if (lists[i] == undefined) {
+            return false;
         }
 
-        var toCheck = '';
-        var toUncheck = '';
+        var toCheck = toUncheck = '';
 
         if (lists[i].url != undefined) {
             var ajaxList = fetch(lists[i].url, i);
@@ -65,11 +61,9 @@
             var toCheck = toCheck.split(',');
 
             for (j in toCheck) {
-                // prevent loop coused by user's configuration like "onCheck X then check X"
-                if (toCheck[j] == i) continue;
-
+                if (toCheck[j] == i) continue; // prevent loop coused by user's configuration like "onCheck X then check X"
                 elements[toCheck[j]].attr('checked', true);
-                if (options.cascade == true) { check(options, toCheck[j], true); }
+                if (options.cascade == true) { list(options, toCheck[j], true); }
             }
         }
 
@@ -77,17 +71,19 @@
             var toUncheck = toUncheck.split(',');
 
             for (j in toUncheck) {
-                // prevent loop coused by user's configuration like "onCheck X then check X"
-                if (toUncheck[j] == i) continue;
-
+                if (toUncheck[j] == i) continue; // prevent loop coused by user's configuration like "onUncheck X then check X"
                 elements[toUncheck[j]].attr('checked', false);
-                if (options.cascade == true) { check(options, toUncheck[j], false); }
+                if (options.cascade == true) { list(options, toUncheck[j], false); }
             }
         }
 
     }
 
-    this.fetch = function(url, id)
+    /**
+     * Fetchs Json object from specified url.
+     * Returned object must contain ...
+     */
+    this.fetch = function(url)
     {
         var data = $.ajax({
             async: false,
