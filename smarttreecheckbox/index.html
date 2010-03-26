@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>smartCheckbox demo</title>
+        <link rel="stylesheet" type="text/css" href="jquery.smarttreecheckbox.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.smarttreecheckbox-0.1.js"></script>
+        <script type="text/javascript">
+        //<!--
+            $(document).ready(function() {
+                $('#tree').smartTreeCheckbox({
+                    checkParents: true,
+                    checkChildren: true,
+                    collapsable: true,
+                    collapsed: false
+                });
+            });
+        //-->
+        </script>
+    </head>
+    <body>
+        <a href="https://code.google.com/p/smartcheckbox/">Project Home</a> |
+        <a href="../index.html">Demo Index</a>
+        <hr>
+        <table border="1">
+            <caption>smartTreeCheckbox demo</caption>
+            <tr>
+                <td>
+                    <p>collapse: true</p>
+                    <ul id="tree">
+                        <li><input type="checkbox">Root
+                        <ul>
+                            <li><input type="checkbox">Node 1
+                            <ul>
+                                <li><input type="checkbox">Node 1.1
+                            </ul>
+                        </ul>
+                        <ul>
+                            <li><input type="checkbox">Node 2
+                            <ul>
+                                <li><input type="checkbox">Node 2.1
+                                <li><input type="checkbox">Node 2.2
+                                <li><input type="checkbox">Node 2.3
+                                <ul>
+                                    <li><input type="checkbox">Node 2.3.1
+                                    <li><input type="checkbox">Node 2.3.2
+                                </ul>
+                                <li><input type="checkbox">Node 2.4
+                                <li><input type="checkbox">Node 2.5
+                                <li><input type="checkbox">Node 2.6
+                            </ul>
+                        </ul>
+                    </ul>
+
+        </table>
+    </body>
+</html>
