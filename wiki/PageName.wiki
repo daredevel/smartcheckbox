@@ -2,14 +2,14 @@
 
 ==Options==
 
-|| *options*      || *type*  || *default value*        || *description* ||
-|| checkChildren  || boolean || false                  ||
-|| checkParents   || boolean || false                  ||
-|| collapsable    || boolean || false                  ||
-|| collapsed      || boolean || false                  ||
-|| collapseEffect || string  || 'slide'                ||
-|| collapseImage  || string  || 'minus.png'            ||
-|| container      || string  || 'smarttreecheckbox`[`n`]`' ||
-|| expandeEffect  || string  || 'slide'                ||
-|| expandImage    || string  || 'plus.png',            ||
-|| leafImage      || string  || 'blank.png'            ||
+|| *options*      || *type*  || *default value*          || *description* ||
+|| checkChildren  || boolean || false                    ||
+|| checkParents   || boolean || false                    ||
+|| collapsable    || boolean || false                    ||
+|| collapsed      || boolean || false                    ||
+|| collapseEffect || string  || 'slide'                  ||
+|| collapseImage  || string  || 'minus.png'              ||
+|| container      || string  || 'smarttreecheckbox`[n]`' ||
+|| expandeEffect  || string  || 'slide'                  ||
+|| expandImage    || string  || 'plus.png',              ||
+|| leafImage      || string  || 'blank.png'              ||
