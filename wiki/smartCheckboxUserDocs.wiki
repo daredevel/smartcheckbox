@@ -1,4 +1,4 @@
-#summary usage documentation
+#summary smartCheckbox usage documentation
 #labels Featured
 
 == options ==
