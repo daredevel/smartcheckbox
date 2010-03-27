@@ -1,0 +1,15 @@
+#summary smartTreeCheckbox user documentation
+
+==Options==
+
+|| *options*      || *type*  || *default value* || *description* ||
+|| checkChildren  || boolean || false           ||
+|| checkParents   ||         || false           ||
+|| collapsable    ||         || false           ||
+|| collapsed      ||         || false           ||
+|| collapseEffect ||         || 'slide'         ||
+|| collapseImage  ||         || 'minus.png'     ||
+|| container      ||         || 'smarttreecheckbox'+'['+ smartTreeCheckboxIndex++ +']', ||
+|| expandeEffect  ||         || 'slide'         ||
+|| expandImage    ||         || 'plus.png',     ||
+|| leafImage      ||         || 'blank.png'     ||
