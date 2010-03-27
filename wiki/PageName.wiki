@@ -9,7 +9,7 @@
 || collapsed      || boolean || false                  ||
 || collapseEffect || string  || 'slide'                ||
 || collapseImage  || string  || 'minus.png'            ||
-|| container      || string  || 'smarttreecheckbox[n]' ||
+|| container      || string  || 'smarttreecheckbox`[`n`]`' ||
 || expandeEffect  || string  || 'slide'                ||
 || expandImage    || string  || 'plus.png',            ||
 || leafImage      || string  || 'blank.png'            ||
