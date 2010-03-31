@@ -208,7 +208,7 @@
      * Check/uncheck children of passed checkbox
      */
     this.toggleChildren = function(checkbox) {
-        checkbox.parent().find('li :checkbox').attr('checked',checkbox.attr('checked') ? 'checked' : '');
+        checkbox.parents('li:first').find('li :checkbox').attr('checked',checkbox.attr('checked') ? 'checked' : '');
     }
 
 })(jQuery);
