@@ -3,7 +3,7 @@
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
  *
- * @version 0.4
+ * @version 0.3.1
  */
 
 /**
@@ -115,7 +115,7 @@
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
  *
- * @version 0.1
+ * @version 0.2
  */
 (function($){
 
@@ -129,10 +129,12 @@
             checkParents: false,
             collapsable: false,
             collapsed: false,
+            collapseDuration: 500,
             collapseEffect: 'slide',
             collapseImage: 'minus.png',
             container: 'smarttreecheckbox'+'['+ smartTreeCheckboxIndex++ +']',
-            expandeEffect: 'slide',
+            expandDuration: 500,
+            expandEffect: 'slide',
             expandImage: 'plus.png',
             leafImage: 'blank.png'
         }, options);
@@ -144,7 +146,7 @@
 
                 if ($(this).is(":has(ul)")) {
                     if (options.collapsed) {
-                        $(this).find("ul").hide(options.collapseEffect);
+                        $(this).find("ul").hide();
                         $img = $('<img src="'+options.expandImage+'" />').data("collapsed",0);
                     } else {
                         $img = $('<img src="'+options.collapseImage+'" />').data("collapsed",1)
@@ -164,13 +166,27 @@
                 return;
             }
             if ($(this).data("collapsed") === 0) {
-                listItem.children("ul").show(options.expandeEffect);
+
+                if ($.ui !== undefined) {
+                    listItem.children("ul").show(options.expandEffect, {}, options.expandDuration);
+                } else {
+                    listItem.children("ul").show(options.expandDuration);
+                }
+
                 listItem.children("img").attr("src",options.collapseImage);
                 $(this).data("collapsed",1)
+
             } else {
-                listItem.children("ul").hide(options.collapseEffect);
+
+                if ($.ui !== undefined) {
+                    listItem.children("ul").hide(options.collapseEffect, {}, options.collapseDuration);
+                } else {
+                    listItem.children("ul").hide(options.collapseDuration);
+                }
+
                 listItem.children("img").attr("src",options.expandImage);
                 $(this).data("collapsed",0)
+
             }
         });
 
@@ -200,6 +216,7 @@
      */
     this.checkParents = function(checkbox, options)
     {
+
         var parentCheckbox = checkbox.parents("li:first").parents("li:first").find(" :checkbox:first");
 
         if (!parentCheckbox.is(":checked")) {
@@ -215,7 +232,8 @@
     /**
      * Check/uncheck children of passed checkbox
      */
-    this.toggleChildren = function(checkbox) {
+    this.toggleChildren = function(checkbox)
+    {
         checkbox.parents('li:first').find('li :checkbox').attr('checked',checkbox.attr('checked') ? 'checked' : '');
     }
 
