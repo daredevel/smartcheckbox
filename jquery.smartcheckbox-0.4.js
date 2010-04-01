@@ -1,4 +1,12 @@
 /**
+ * jQuery smartCheckbox Package
+ *
+ * @author Valerio Galano <valerio.galano@gmail.com>
+ *
+ * @version 0.4
+ */
+
+/**
  * jQuery smartCheckbox
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
