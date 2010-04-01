@@ -125,20 +125,52 @@
 
         // build main options before element iteration
         var options = $.extend({
-            checkChildren: false,
-            checkParents: false,
-            collapsable: false,
+            checkChildren: true,
+            checkParents: true,
+            collapsable: true,
+            collapseAllButton: 'Collapse all',
             collapsed: false,
             collapseDuration: 500,
             collapseEffect: 'slide',
             collapseImage: 'minus.png',
             container: 'smarttreecheckbox'+'['+ smartTreeCheckboxIndex++ +']',
+            cssClass: 'smartTreeCheckbox',
+            expandAllButton: 'Expande all',
             expandDuration: 500,
             expandEffect: 'slide',
             expandImage: 'plus.png',
             leafImage: 'blank.png'
         }, options);
 
+        // build collapse all button
+        if (options.collapseAllButton.length > 0) {
+
+            $collapseAllButton = $('<a class="'+options.cssClass+' all" id="'+options.container+'collapseAll" href="javascript:void(0);">'+options.collapseAllButton+'</a>').bind('click', function(){
+                $('[class*=' + options.container + '] img').each(function(){
+                    if ($(this).data("collapsed") === 1) {
+                        collapse($(this), options);
+                    }
+                });
+            });
+
+            this.parent().prepend($collapseAllButton);
+        }
+
+        // build expand all button
+        if (options.expandAllButton.length > 0) {
+
+            $expandAllButton = $('<a class="'+options.cssClass+' all" id="'+options.container+'expandAll" href="javascript:void(0);">'+options.expandAllButton+'</a>').bind('click', function(){
+                $('[class*=' + options.container + '] img').each(function(){
+                    if ($(this).data("collapsed") === 0) {
+                        expand($(this), options);
+                    }
+                });
+            });
+
+            this.parent().prepend($expandAllButton);
+        }
+
+        // setup tree
         $("li", this).each(function() {
 
             if (options.collapsable) {
@@ -159,37 +191,21 @@
             }
         });
 
+        // handle single expand/collapse
         this.find('img').bind("click", function(e, a){
-            var listItem = $(this).parents("li:first");
 
             if ($(this).data("collapsed") == undefined) {
                 return;
             }
+
             if ($(this).data("collapsed") === 0) {
-
-                if ($.ui !== undefined) {
-                    listItem.children("ul").show(options.expandEffect, {}, options.expandDuration);
-                } else {
-                    listItem.children("ul").show(options.expandDuration);
-                }
-
-                listItem.children("img").attr("src",options.collapseImage);
-                $(this).data("collapsed",1)
-
+                expand($(this), options);
             } else {
-
-                if ($.ui !== undefined) {
-                    listItem.children("ul").hide(options.collapseEffect, {}, options.collapseDuration);
-                } else {
-                    listItem.children("ul").hide(options.collapseDuration);
-                }
-
-                listItem.children("img").attr("src",options.expandImage);
-                $(this).data("collapsed",0)
-
+                collapse($(this), options);
             }
         });
 
+        // handle tree select/unselect
         this.find(':checkbox').bind("click", function(e, a) {
 
             if (options.checkChildren) {
@@ -199,13 +215,13 @@
             if (options.checkParents && $(this).is(":checked")) {
                 checkParents($(this), options);
             }
-
         });
 
+        // add container class
         this.addClass(options.container);
 
         // add css class
-        this.addClass('smartTreeCheckbox');
+        this.addClass(options.cssClass);
 
         return this;
     };
@@ -216,7 +232,6 @@
      */
     this.checkParents = function(checkbox, options)
     {
-
         var parentCheckbox = checkbox.parents("li:first").parents("li:first").find(" :checkbox:first");
 
         if (!parentCheckbox.is(":checked")) {
@@ -226,7 +241,40 @@
         if (parentCheckbox.parents('[class*=' + options.container + ']').attr('class') != undefined) {
             checkParents(parentCheckbox, options);
         }
+    }
 
+    /**
+     * Collapse tree element
+     */
+    this.collapse = function(img, options)
+    {
+        var listItem = img.parents("li:first");
+
+        if ($.ui !== undefined) {
+            listItem.children("ul").hide(options.collapseEffect, {}, options.collapseDuration);
+        } else {
+            listItem.children("ul").hide(options.collapseDuration);
+        }
+
+        listItem.children("img").attr("src",options.expandImage);
+        img.data("collapsed",0)
+    }
+
+    /**
+     * Expand tree element
+     */
+    this.expand = function(img, options)
+    {
+        var listItem = img.parents("li:first");
+
+        if ($.ui !== undefined) {
+            listItem.children("ul").show(options.expandEffect, {}, options.expandDuration);
+        } else {
+            listItem.children("ul").show(options.expandDuration);
+        }
+
+        listItem.children("img").attr("src",options.collapseImage);
+        img.data("collapsed",1)
     }
 
     /**

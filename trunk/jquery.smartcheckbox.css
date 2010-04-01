@@ -3,3 +3,6 @@ ul.smartTreeCheckbox li {
 	list-style-type: none;
 	padding: 0;
 }
+a.smartTreeCheckbox.all {
+    display: block;
+}
