@@ -3,7 +3,7 @@
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
  *
- * @version 0.3.1
+ * @version 0.4
  */
 (function($){
 
