@@ -3,6 +3,8 @@
  *
  * @author Valerio Galano <valerio.galano@gmail.com>
  *
+ * @see http://smartcheckbox.daredevel.it
+ *
  * @version 0.4
  */
 (function($){
